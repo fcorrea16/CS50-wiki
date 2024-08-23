@@ -11,11 +11,7 @@ def index(request):
 
 def entry(request, title):
     return render(request, "encyclopedia/entry.html", {
-        "entry": title.capitalize()
-    })
+        "entry_title": title.capitalize(),
+        "entry": util.get_entry(title)
 
-    # def entry(request, title):
-    #     return render(request, "encyclopedia/entry.html", {
-    #         # "entry": title
-    #         # "entry": util.get_entry(title)
-    #         "title": util.get_entry(title)
+    })
