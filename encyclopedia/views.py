@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
-from django import forms
+
 from . import util
 
 
@@ -28,17 +28,16 @@ def search(request):
     if request.method == "GET":
         param = request.GET.get("q")
         entry = util.get_entry(param)
+        entry_titles = util.list_entries()
+        search_results = []
         if entry == None:
-            titles = util.list_entries()
-            search_results = []
-            for title in titles:
-                if param in title:
-                    search_results += [title]
-                break
+            for entry_title in entry_titles:
+                if param in entry_title:
+                    search_results += [entry_title]
+                    break
             return render(request, "encyclopedia/search.html", {
                 "param": param,
                 "search_results": search_results,
-                " titles":  titles
             })
         else:
             return HttpResponseRedirect(param)
