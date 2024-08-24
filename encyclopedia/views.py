@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponseRedirect
 from django import forms
 from . import util
 
@@ -27,8 +27,11 @@ def entry(request, title):
 def search(request):
     if request.method == "GET":
         param = request.GET.get("q")
-        return render(request, "encyclopedia/search.html", {
-            "param": param
-        })
-    else:
-        return render(request, "encyclopedia/search.html")
+        entry = util.get_entry(param)
+        if entry == None:
+            return render(request, "encyclopedia/search.html", {
+                "param": param,
+                "entry": entry
+            })
+        else:
+            return HttpResponseRedirect(param)
