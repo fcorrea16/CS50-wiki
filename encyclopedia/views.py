@@ -29,9 +29,16 @@ def search(request):
         param = request.GET.get("q")
         entry = util.get_entry(param)
         if entry == None:
+            titles = util.list_entries()
+            search_results = []
+            for title in titles:
+                if param in title:
+                    search_results += [title]
+                break
             return render(request, "encyclopedia/search.html", {
                 "param": param,
-                "entry": entry
+                "search_results": search_results,
+                " titles":  titles
             })
         else:
             return HttpResponseRedirect(param)
