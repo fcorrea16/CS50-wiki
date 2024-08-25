@@ -11,8 +11,14 @@ from . import util
 markdown_conversion = Markdown()
 
 
+def validator_title_unique(text):
+    if util.get_entry(text) is not None:
+        raise ValidationError("post already exists")
+
+
 class NewWikiEntry(forms.Form):
-    new_entry_title = forms.CharField(max_length=100, label="Title ")
+    new_entry_title = forms.CharField(max_length=100, validators=[
+                                      validator_title_unique], label="Title ")
     new_entry_content = forms.CharField(
         widget=forms.Textarea(), label="Content")
 
@@ -80,3 +86,14 @@ def add(request):
             return render(request, "encyclopedia/add.html", {"form": form})
     else:
         return render(request, "encyclopedia/add.html", {"form": NewWikiEntry()})
+
+
+def edit(request):
+    if request.method == "GET":
+        edit_title = request.GET.get("title")
+        edit_entry = util.get_entry(edit_title)
+        entry_html = markdown_conversion.convert(edit_entry)
+        return render(request, "encyclopedia/edit.html", {
+            "entry": edit_entry,
+            "entry_title": edit_title,
+        })
