@@ -1,9 +1,10 @@
 from django.shortcuts import render
-from django.http import HttpResponseRedirect
 from markdown2 import Markdown
 from django import forms
+from django.http import HttpResponseRedirect
 from django.urls import reverse
 import secrets
+from django.core.exceptions import ValidationError
 
 from . import util
 
@@ -29,11 +30,13 @@ def entry(request, title):
     if entry == None:
         return render(request, "encyclopedia/404.html", {
             "entry": entry_html,
+            "entry_title": title,
             "random_entry": secrets.choice(util.list_entries())
         })
     else:
         return render(request, "encyclopedia/entry.html", {
             "entry": entry_html,
+            "entry_title": title,
             "random_entry": secrets.choice(util.list_entries())
         })
 
@@ -65,18 +68,15 @@ def add(request):
     if request.method == "POST":
         form = NewWikiEntry(request.POST)
         if form.is_valid():
-            title = form.cleaned_data("new_entry_title")
-            content = form.cleaned_data("new_entry_content")
-            title2 = form_title
-            content2 = form_content
-            print(title2)
-            print(content2)
-            # title = form.cleaned_data["new_entry_title"]
-            # content = form.cleaned_data["new_entry_content"]
-            util.save_entry(title, content)
-            # return render(request, "encyclopedia/testeconsole.html", {"title": title, "content": content})
-            return HttpResponseRedirect(reverse("wiki:index"))
+            content = form.cleaned_data["new_entry_content"]
+            title = form.cleaned_data["new_entry_title"]
+            word = "# "
+            if word in title:
+                title = title.lstrip(word)
+            content_title = f"# {title}\n\n" + content
+            util.save_entry(title, content_title)
+            return HttpResponseRedirect("/wiki/" + title)
         else:
             return render(request, "encyclopedia/add.html", {"form": form})
     else:
-        return render(request, "encyclopedia/add.html", {"form": NewWikiEntry})
+        return render(request, "encyclopedia/add.html", {"form": NewWikiEntry()})
