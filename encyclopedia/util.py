@@ -5,7 +5,7 @@ from django.core.files.storage import default_storage
 
 
 def list_entries():
-    """
+    """d
     Returns a list of all names of encyclopedia entries.
     """
     _, filenames = default_storage.listdir("entries")
