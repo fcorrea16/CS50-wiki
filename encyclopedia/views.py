@@ -13,7 +13,7 @@ markdown_conversion = Markdown()
 
 def validator_title_unique(text):
     if util.get_entry(text) is not None:
-        raise ValidationError("post already exists")
+        raise ValidationError("Post with that title already exists.")
 
 
 class NewWikiEntry(forms.Form):

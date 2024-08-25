@@ -145,4 +145,9 @@ textarea {
   background-color: #0e2238 !important;
 }
 
+.errorlist {
+  background-color: #ffd7e7;
+  color: #94171a;
+}
+
 /*# sourceMappingURL=styles.css.map */
