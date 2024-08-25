@@ -1,38 +1,148 @@
-body {
-    margin: 0;
-    background-color: white;
+/* ul.no-bullets,
+li::marker {
+    list-style-type: none;
+} */
+::after,
+::before {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-code {
-    white-space: pre;
+a {
+  text-decoration: none;
+}
+
+li {
+  list-style: none;
 }
 
 h1 {
-    margin-top: 0px;
-    padding-top: 20px;
+  color: #0e2238;
+  font-weight: 600;
+  font-size: 2rem;
+  margin-bottom: 20px;
 }
 
-textarea {
-    height: 90vh;
-    width: 80%;
+h3 {
+  font-weight: 600;
+  font-size: 1.5rem;
+  color: #fff;
+}
+
+.horizontal_line {
+  border-bottom: 1px Solid #fff;
+}
+
+.row {
+  --bs-gutter-x: 0 !important;
 }
 
 .main {
-    padding: 10px;
+  min-height: 100vh;
+  width: 100%;
+  padding: 20px 30px;
+  background-color: #fafbfe;
 }
 
-.search {
-    width: 100%;
-    font-size: 15px;
-    line-height: 15px;
+#sidebar {
+  background-color: #0e2238;
+  height: 100vh;
+  padding: 20px;
 }
 
-.sidebar {
-    background-color: #f0f0f0;
-    height: 100vh;
-    padding: 20px;
+.sidebar-logo {
+  margin: auto 0;
 }
 
-.sidebar h2 {
-    margin-top: 5px;
+.sidebar-nav {
+  padding: 2rem 0;
 }
+
+.sidebar-logo a {
+  color: #FFF;
+  font-size: 1.15rem;
+  font-weight: 600;
+}
+
+a.sidebar-link {
+  padding: 0.625rem 1.625rem;
+  color: #FFF;
+  display: block;
+  font-size: 0.9rem;
+  white-space: nowrap;
+  border-left: 3px solid transparent;
+}
+
+a.sidebar-link:hover {
+  background-color: #316cf4;
+  border-left: 3px solid #3b7ddd;
+  text-decoration: none;
+}
+
+.sidebar-footer input {
+  font-size: 0.8em;
+}
+
+.main li {
+  padding: 5px;
+}
+
+.main a {
+  font-size: 1em;
+  font-weight: 600;
+}
+
+.btn_edit {
+  font-weight: 400;
+  font-size: 0.8em;
+  padding: 10px;
+  border: 1px solid #3b7ddd;
+  border-radius: 4px;
+  display: inline;
+  margin-top: 20px;
+}
+
+.btn_edit:hover {
+  background-color: #b4bcc6;
+  border: 1px solid #b4bcc6;
+  border-radius: 4px;
+}
+
+input,
+textarea {
+  border-radius: 4px;
+  border: 1px solid #0e2238;
+}
+
+.entry_form div {
+  margin: 15px 0px;
+}
+
+.entry_form label {
+  font-weight: 500;
+}
+
+textarea {
+  height: 50vh;
+  width: 80%;
+}
+
+.textarea_content {
+  width: 100%;
+}
+
+.edit_entry input {
+  margin-bottom: 20px;
+}
+
+.btn-primary {
+  margin: 15px 0px;
+  background-color: #3b7ddd !important;
+}
+
+.btn-primary:hover {
+  background-color: #0e2238 !important;
+}
+
+/*# sourceMappingURL=styles.css.map */

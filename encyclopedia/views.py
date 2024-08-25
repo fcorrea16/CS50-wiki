@@ -18,16 +18,15 @@ def validator_title_unique(text):
 
 class NewWikiEntry(forms.Form):
     new_entry_title = forms.CharField(max_length=100, validators=[
-                                      validator_title_unique], label="Title ")
+                                      validator_title_unique], label="Title")
     new_entry_content = forms.CharField(
-        widget=forms.Textarea(), label="Content")
+        widget=forms.Textarea(attrs={'class': 'textarea_content'}), label="Content")
 
 
 class EditWikiEntry(forms.Form):
-    edit_entry_title = forms.CharField(
-        max_length=100, label="Title ")
+    edit_entry_title = forms.CharField(max_length=100, label="Title ")
     edit_entry_content = forms.CharField(
-        widget=forms.Textarea(), label="Content")
+        widget=forms.Textarea(attrs={'class': 'textarea_content'}), label="Content")
 
 
 def index(request):
@@ -90,9 +89,10 @@ def add(request):
             util.save_entry(title, content_title)
             return HttpResponseRedirect("/wiki/" + title)
         else:
-            return render(request, "encyclopedia/add.html", {"form": form})
+            return render(request, "encyclopedia/add.html", {"form": form,
+                                                             "random_entry": secrets.choice(util.list_entries())})
     else:
-        return render(request, "encyclopedia/add.html", {"form": NewWikiEntry()})
+        return render(request, "encyclopedia/add.html", {"form": NewWikiEntry(), "random_entry": secrets.choice(util.list_entries())})
 
 
 def edit(request):
@@ -111,12 +111,14 @@ def edit(request):
             edit_form = EditWikiEntry(initial={'edit_entry_title': request.GET.get(
                 "title"), 'edit_entry_content': util.get_entry(edit_title)})
             return render(request, "encyclopedia/edit.html", {
-                "form": edit_form
+                "form": edit_form,
+                "random_entry": secrets.choice(util.list_entries())
             })
     else:
         edit_title = request.GET.get("title")
         edit_form = EditWikiEntry(initial={'edit_entry_title': request.GET.get(
             "title"), 'edit_entry_content': util.get_entry(edit_title)})
         return render(request, "encyclopedia/edit.html", {
-            "form": edit_form
+            "form": edit_form,
+            "random_entry": secrets.choice(util.list_entries())
         })
