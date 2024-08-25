@@ -93,7 +93,7 @@ a.sidebar-link:hover {
   font-weight: 600;
 }
 
-.btn_edit {
+.btn_edit a {
   font-weight: 400;
   font-size: 0.8em;
   padding: 10px;
@@ -103,7 +103,7 @@ a.sidebar-link:hover {
   margin-top: 20px;
 }
 
-.btn_edit:hover {
+.btn_edit a:hover {
   background-color: #b4bcc6;
   border: 1px solid #b4bcc6;
   border-radius: 4px;
