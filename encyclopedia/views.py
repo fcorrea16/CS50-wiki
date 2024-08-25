@@ -25,9 +25,9 @@ class NewWikiEntry(forms.Form):
 
 class EditWikiEntry(forms.Form):
     edit_entry_title = forms.CharField(
-        max_length=100, label="Title ", initial="xx")
+        max_length=100, label="Title ")
     edit_entry_content = forms.CharField(
-        widget=forms.Textarea(), label="Content", initial="yy")
+        widget=forms.Textarea(), label="Content")
 
 
 def index(request):
@@ -96,9 +96,27 @@ def add(request):
 
 
 def edit(request):
-    edit_title = request.GET.get("title")
-    edit_form = EditWikiEntry(initial={'edit_entry_title': request.GET.get(
-        "title"), 'edit_entry_content': util.get_entry(edit_title)})
-    return render(request, "encyclopedia/edit.html", {
-        "form": edit_form
-    })
+    if request.method == "POST":
+        form = EditWikiEntry(request.POST)
+        if form.is_valid():
+            content = form.cleaned_data["edit_entry_content"]
+            title = form.cleaned_data["edit_entry_title"]
+            word = "# "
+            if word in title:
+                title = title.lstrip(word)
+            util.save_entry(title, content)
+            return HttpResponseRedirect("/wiki/" + title)
+        else:
+            edit_title = request.GET.get("title")
+            edit_form = EditWikiEntry(initial={'edit_entry_title': request.GET.get(
+                "title"), 'edit_entry_content': util.get_entry(edit_title)})
+            return render(request, "encyclopedia/edit.html", {
+                "form": edit_form
+            })
+    else:
+        edit_title = request.GET.get("title")
+        edit_form = EditWikiEntry(initial={'edit_entry_title': request.GET.get(
+            "title"), 'edit_entry_content': util.get_entry(edit_title)})
+        return render(request, "encyclopedia/edit.html", {
+            "form": edit_form
+        })
