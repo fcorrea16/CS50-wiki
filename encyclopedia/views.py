@@ -3,13 +3,21 @@ from django.http import HttpResponseRedirect
 from .models import MarkdownContent
 from django import forms
 from django.urls import reverse
+import secrets
 
 from . import util
 
 
+class NewWikiEntry(forms.Form):
+    new_entry_title = forms.CharField(max_length=100, label="Title ")
+    new_entry_content = forms.CharField(
+        widget=forms.Textarea(), label="Content")
+
+
 def index(request):
     return render(request, "encyclopedia/index.html", {
-        "entries": util.list_entries()
+        "entries": util.list_entries(),
+        "random_entry": secrets.choice(util.list_entries())
     })
 
 
@@ -18,12 +26,14 @@ def entry(request, title):
     if entry == None:
         return render(request, "encyclopedia/404.html", {
             "entry": entry,
-            "entry_title": title.capitalize(),
+            "entry_title": title.capitalize()
+
         })
     else:
         return render(request, "encyclopedia/entry.html", {
             "entry_title": title.capitalize(),
             "entry": util.get_entry(title)
+
         })
 
 
@@ -41,19 +51,10 @@ def search(request):
             return render(request, "encyclopedia/search.html", {
                 "param": param,
                 "search_results": search_results,
+
             })
         else:
             return HttpResponseRedirect(param)
-
-
-class NewWikiEntry(forms.Form):
-    new_entry_title = forms.CharField(max_length=100, label="Title ")
-    new_entry_content = forms.CharField(
-        widget=forms.Textarea(), label="Content")
-
-
-def testeconsole(request, title, content):
-    return render(request, "encyclopedia/testeconsole.html", {"title": title, "content": content})
 
 
 def add(request):
@@ -74,4 +75,4 @@ def add(request):
         else:
             return render(request, "encyclopedia/add.html", {"form": form})
     else:
-        return render(request, "encyclopedia/add.html", {"form": NewWikiEntry()})
+        return render(request, "encyclopedia/add.html", {"form": NewWikiEntry})
