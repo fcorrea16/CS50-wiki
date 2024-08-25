@@ -26,14 +26,14 @@ def entry(request, title):
     if entry == None:
         return render(request, "encyclopedia/404.html", {
             "entry": entry,
-            "entry_title": title.capitalize()
-
+            "entry_title": title.capitalize(),
+            "random_entry": secrets.choice(util.list_entries())
         })
     else:
         return render(request, "encyclopedia/entry.html", {
             "entry_title": title.capitalize(),
-            "entry": util.get_entry(title)
-
+            "entry": util.get_entry(title),
+            "random_entry": secrets.choice(util.list_entries())
         })
 
 
@@ -48,10 +48,13 @@ def search(request):
                 if param in entry_title:
                     search_results += [entry_title]
                     break
+            if search_results == []:
+                search_results = 0
             return render(request, "encyclopedia/search.html", {
                 "param": param,
                 "search_results": search_results,
-
+                "entry": entry,
+                "random_entry": secrets.choice(util.list_entries())
             })
         else:
             return HttpResponseRedirect(param)
