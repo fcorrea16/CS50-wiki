@@ -23,6 +23,13 @@ class NewWikiEntry(forms.Form):
         widget=forms.Textarea(), label="Content")
 
 
+class EditWikiEntry(forms.Form):
+    edit_entry_title = forms.CharField(
+        max_length=100, label="Title ", initial="xx")
+    edit_entry_content = forms.CharField(
+        widget=forms.Textarea(), label="Content", initial="yy")
+
+
 def index(request):
     return render(request, "encyclopedia/index.html", {
         "entries": util.list_entries(),
@@ -89,11 +96,9 @@ def add(request):
 
 
 def edit(request):
-    if request.method == "GET":
-        edit_title = request.GET.get("title")
-        edit_entry = util.get_entry(edit_title)
-        entry_html = markdown_conversion.convert(edit_entry)
-        return render(request, "encyclopedia/edit.html", {
-            "entry": edit_entry,
-            "entry_title": edit_title,
-        })
+    edit_title = request.GET.get("title")
+    edit_form = EditWikiEntry(initial={'edit_entry_title': request.GET.get(
+        "title"), 'edit_entry_content': util.get_entry(edit_title)})
+    return render(request, "encyclopedia/edit.html", {
+        "form": edit_form
+    })
