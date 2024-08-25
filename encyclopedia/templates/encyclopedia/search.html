@@ -1,0 +1,21 @@
+{% extends "encyclopedia/layout.html" %}
+
+{% block title %}
+Wiki: {{entry_title}}
+{% endblock %}
+
+{% block body %}
+<h1>Search</h1>
+<p>You searched for: "{{param}}".</p>
+
+{% if search_results == 0 %}
+<p>We couldn't find any result, please try again or <a href="{% url 'wikipedia:add' %}">Creat a new page</a></p>
+{% else %}
+<p>We could not find an exact match. Did you mean:</p>
+<ul> {% for result in search_results %}
+    <li><a href={{result}}>{{result}}</a></li>
+</ul>
+
+{% endfor %}
+{% endif %}
+{% endblock %}
