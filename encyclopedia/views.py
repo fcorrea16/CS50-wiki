@@ -38,14 +38,14 @@ def index(request):
 
 def entry(request, title):
     entry = util.get_entry(title)
-    entry_html = markdown_conversion.convert(entry)
     if entry == None:
         return render(request, "encyclopedia/404.html", {
-            "entry": entry_html,
+            "entry": entry,
             "entry_title": title,
             "random_entry": secrets.choice(util.list_entries())
         })
     else:
+        entry_html = markdown_conversion.convert(entry)
         return render(request, "encyclopedia/entry.html", {
             "entry": entry_html,
             "entry_title": title,
