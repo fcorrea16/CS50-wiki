@@ -1,11 +1,13 @@
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
-from .models import MarkdownContent
+from markdown2 import Markdown
 from django import forms
 from django.urls import reverse
 import secrets
 
 from . import util
+
+markdown_conversion = Markdown()
 
 
 class NewWikiEntry(forms.Form):
@@ -23,16 +25,15 @@ def index(request):
 
 def entry(request, title):
     entry = util.get_entry(title)
+    entry_html = markdown_conversion.convert(entry)
     if entry == None:
         return render(request, "encyclopedia/404.html", {
-            "entry": entry,
-            "entry_title": title.capitalize(),
+            "entry": entry_html,
             "random_entry": secrets.choice(util.list_entries())
         })
     else:
         return render(request, "encyclopedia/entry.html", {
-            "entry_title": title.capitalize(),
-            "entry": util.get_entry(title),
+            "entry": entry_html,
             "random_entry": secrets.choice(util.list_entries())
         })
 
