@@ -33,7 +33,7 @@ end
 # Unset irrelevant variables.
 deactivate nondestructive
 
-set -gx VIRTUAL_ENV "/Users/macbook-fcorrea/Downloads/_CS50_harvard/3-project/wiki/.venv"
+set -gx VIRTUAL_ENV "/Users/macbook-fcorrea/Documents/Coding/_CS50_harvard/3-project1/wiki/.venv"
 
 set -gx _OLD_VIRTUAL_PATH $PATH
 set -gx PATH "$VIRTUAL_ENV/bin" $PATH
